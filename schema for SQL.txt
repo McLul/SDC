@@ -1,0 +1,83 @@
+
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS product_relations;
+DROP TABLE IF EXISTS skus;
+DROP TABLE IF EXISTS photos;
+DROP TABLE IF EXISTS styles;
+DROP TABLE IF EXISTS product_features;
+DROP TABLE IF EXISTS features;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS cart;
+
+CREATE TABLE products(
+product_id SERIAL,
+name VARCHAR (200) NOT NULL,
+slogan VARCHAR (1000),
+description VARCHAR (1000) NOT NULL,
+default_price INT,
+category VARCHAR (200) NOT NULL,
+PRIMARY KEY (product_id)
+);
+
+
+
+CREATE TABLE features (
+feature_id SERIAL,
+product_id INT,
+feature VARCHAR (1000) NOT NULL,
+value VARCHAR (1000),
+PRIMARY KEY (feature_id),
+FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+
+CREATE TABLE styles (
+style_id SERIAL,
+name VARCHAR (200) NOT NULL, 
+original_price INT,
+sale_price INT,
+product_id INT NOT NULL,
+default_style INT NOT NULL,
+PRIMARY KEY (style_id),
+FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+CREATE TABLE photos (
+style_id INT NOT NULL,
+thumbnail_url VARCHAR (200),
+url VARCHAR (200),
+FOREIGN KEY (style_id) REFERENCES styles(style_id)
+);
+
+
+
+CREATE TABLE skus (
+sku_id SERIAL,
+style_id INT NOT NULL,
+quantity INT NOT NULL,
+size VARCHAR (50) NOT NULL,
+PRIMARY KEY (sku_id),
+FOREIGN KEY (style_id) REFERENCES styles(style_id)
+);
+
+
+CREATE TABLE product_relations (
+style_id INT,
+product_id INT NOT NULL,
+related_id INT NOT NULL, 
+FOREIGN KEY (product_id) REFERENCES products(product_id),
+FOREIGN KEY (related_id) REFERENCES products(product_id)
+);
+
+
+
+
+CREATE TABLE cart (
+id SERIAL,
+user_session INT NOT NULL,
+product_id INT NOT NULL,
+active INT NOT NULL,
+PRIMARY KEY (id)
+);
+
+

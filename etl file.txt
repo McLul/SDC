@@ -1,0 +1,107 @@
+drop table temp_products;
+drop table temp_features;
+drop table temp_styles;
+drop table temp_photos;
+drop table temp_skus;
+drop table temp_product_relations;
+drop table temp_cart;
+
+
+
+
+CREATE TABLE temp_products(
+product_id INT,
+name VARCHAR (200) NOT NULL,
+slogan VARCHAR (1000),
+description VARCHAR (1000) NOT NULL,
+default_price INT,
+category VARCHAR (200) NOT NULL
+);
+
+\copy temp_products(product_id, name, slogan, description, category, default_price)  FROM '/home/administrator/products.csv' WITH NULL 'null' delimiter ',' CSV header;
+insert into products(name, slogan, description, default_price, category) select name, slogan, description, default_price, category from temp_products;
+
+drop table temp_products;
+
+CREATE TABLE temp_features (
+feature_id INT,
+product_id INT NOT NULL,
+feature VARCHAR (1000) NOT NULL,
+value VARCHAR (1000)
+);
+
+\copy temp_features(feature_id, product_id, feature, value) FROM '/home/administrator/features.csv' WITH NULL 'null' delimiter ',' CSV header;
+insert into features(product_id, feature, value) select product_id, feature, value from temp_features;
+
+drop table temp_features;
+
+CREATE TABLE temp_styles (
+style_id INT,
+name VARCHAR (200) NOT NULL, 
+default_style INT NOT NULL,
+original_price INT,
+sale_price INT,
+product_id INT NOT NULL
+);
+
+\copy temp_styles(style_id, product_id, name, sale_price, original_price, default_style ) FROM '/home/administrator/styles.csv' WITH NULL 'null' delimiter ',' CSV header;
+insert into styles(name, original_price, sale_price, product_id, default_style) select name, original_price, sale_price, product_id, default_style from temp_styles;
+
+
+drop table temp_styles;
+
+CREATE TABLE temp_photos (
+photo_id INT,
+style_id INT NOT NULL,
+thumbnail_url VARCHAR (300),
+url VARCHAR (300)
+);
+
+\copy temp_photos(photo_id, style_id, url, thumbnail_url ) FROM '/home/administrator/photos.csv' WITH NULL 'null' delimiter ',' CSV header;
+\copy temp_photos(photo_id, style_id, url, thumbnail_url ) FROM '/home/administrator/photos_1.csv' WITH NULL 'null' delimiter ',' CSV header;
+insert into photos(style_id, url, thumbnail_url) select style_id, url, thumbnail_url from temp_photos;
+
+drop table temp_photos;
+
+CREATE TABLE temp_skus (
+sku_id INT,
+style_id INT NOT NULL,
+quantity INT NOT NULL,
+size VARCHAR (50) NOT NULL
+);
+
+\copy temp_skus(sku_id, style_id, size, quantity) FROM '/home/administrator/skus.csv' WITH NULL 'null' delimiter ',' CSV header;
+insert into skus(style_id, size, quantity) select style_id, size, quantity from temp_skus;
+
+drop table temp_skus;
+
+CREATE TABLE temp_product_relations (
+id INT,
+product_id INT NOT NULL,
+related_id INT NOT NULL
+);
+
+\copy temp_product_relations (id, product_id, related_id) FROM '/home/administrator/related.csv' WITH NULL 'null' delimiter ',' CSV header;
+insert into product_relations (product_id, related_id) select product_id, related_id from temp_product_relations;
+
+drop table temp_product_relations;
+
+CREATE TABLE temp_cart (
+id INT,
+user_session INT NOT NULL,
+product_id INT NOT NULL,
+active INT NOT NULL
+);
+
+\copy temp_cart (id, user_session, product_id, active) FROM '/home/administrator/cart.csv' WITH NULL 'null' delimiter ',' CSV header;
+insert into cart (user_session, product_id, active) select user_session, product_id, active from temp_cart;
+
+
+drop table temp_cart;
+
+CREATE INDEX product_id_feature_index on features(product_id);
+CREATE INDEX product_id_style_index on styles(product_id);
+CREATE INDEX product_id_related_index on product_relations(product_id);
+CREATE INDEX style_id_photos_index on photos(style_id);
+CREATE INDEX style_id_sku_index on skus(style_id);
+
