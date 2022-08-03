@@ -20,7 +20,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${productId}`, {
+      .get(`localhost:3000/products/${productId}`, {
         headers: {
           Authorization: process.env.GITKEY,
         },

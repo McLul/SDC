@@ -24,7 +24,7 @@ function MainOverview({
   useEffect(() => {
     if (id) {
       axios({
-        url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${id}`,
+        url: `localhost:3000/products/${id}`,
         method: 'get',
         headers: {
           Authorization: process.env.GITKEY,
@@ -45,7 +45,7 @@ function MainOverview({
       setStyleChangeButSameProduct(false);
       setExpandedView(false);
       axios({
-        url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${id}/styles`,
+        url: `localhost:3000/products/${id}/styles`,
         method: 'get',
         headers: {
           Authorization: process.env.GITKEY,
