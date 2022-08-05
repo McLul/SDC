@@ -1,7 +1,5 @@
 var express = require('express');
 var axios = require('axios');
-//Middle ware
-var cors = require('cors');
 
 
 // Router
