@@ -13,7 +13,6 @@ module.exports.app = app;
 app.set('port', 3000);
 
 // use cors for cross origin resource sharing (just in case)
-app.use(cors());
 app.use(express.json());
 
 
