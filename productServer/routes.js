@@ -7,4 +7,5 @@ router.get('/products/:product_id', controller.productInformation.get)
 router.get('/products/:product_id/styles', controller.productStyles.get);
 router.get('/products/:product_id/related', controller.relatedProducts.get);
 
+
 module.exports = router;
