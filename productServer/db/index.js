@@ -1,7 +1,8 @@
 const { Client } = require('pg');
+const API_HOST = "ec2-54-198-110-7.compute-1.amazonaws.com"
 
 const newClient = new Client({
-  host:'localhost',
+  host: API_HOST,
   user: 'dev',
   port:5432,
   password : 'loler101',
