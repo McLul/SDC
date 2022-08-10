@@ -1,5 +1,5 @@
 var express = require('express');
-var axios = require('axios');
+var cors = require('cors');
 
 
 // Router
@@ -7,13 +7,13 @@ var router = require('./routes.js');
 
 
 var app = express();
-module.exports.app = app;
 
 // listen on port 3000
 app.set('port', 3000);
 
 // use cors for cross origin resource sharing (just in case)
 app.use(express.json());
+app.use(cors());
 
 
 // use routes

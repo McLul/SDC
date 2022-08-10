@@ -1,4 +1,4 @@
-const db = require ('./../db');
+  const db = require ('./../db');
 
 module.exports = (productId, callback) => {
     db.query(`SELECT array_agg(p.related_id)
